@@ -1,27 +1,15 @@
-"""
-Modelo de Domínio: ImageItem
-Representa uma imagem no catálogo do organizador.
-Contém o Estado Extrínseco da imagem (caminho, dimensões, metadados editáveis)
-e mantém uma referência ao Estado Intrínseco compartilhado (ImageFormatFlyweight).
-"""
-
 import os
 import uuid
 from datetime import datetime
 from typing import List, Dict, Any, Optional
-from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import QSize
 
 from client.patterns.flyweight import ImageFormatFlyweight, FormatFlyweightFactory
-from client.patterns.strategy import ThumbnailRenderStrategy, SmoothThumbnailStrategy
+from client.patterns.strategy import ThumbnailRenderStrategy
 
 
 class ImageItem:
-    """
-    Representa uma imagem no organizador.
-    Armazena o estado extrínseco específico de cada imagem e compartilha
-    o estado intrínseco (flyweight) com outras imagens do mesmo formato.
-    """
     def __init__(
         self,
         file_path: str,
@@ -45,7 +33,6 @@ class ImageItem:
         self.description: str = description
         self.tags: List[str] = tags or []
 
-        # Data de modificação (ISO 8601 legível)
         if date_modified:
             self.date_modified = date_modified
         elif os.path.exists(self.file_path):
@@ -54,28 +41,22 @@ class ImageItem:
         else:
             self.date_modified = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Associação com o Flyweight (Estado Intrínseco Compartilhado)
-        flyweight_factory = FormatFlyweightFactory()
-        self.flyweight: ImageFormatFlyweight = flyweight_factory.get_flyweight(format_name)
-
-        # Cache em memória da miniatura gerada pela Strategy
+        self.flyweight: ImageFormatFlyweight = FormatFlyweightFactory().get_flyweight(format_name)
         self._cached_thumbnail: Optional[QPixmap] = None
         self._cached_strategy_name: Optional[str] = None
         self._cached_size: Optional[QSize] = None
 
     @property
     def format_name(self) -> str:
-        """Obtido diretamente do Flyweight compartilhado."""
         return self.flyweight.format_name
 
     @property
     def mime_type(self) -> str:
-        """Obtido diretamente do Flyweight compartilhado."""
         return self.flyweight.mime_type
 
     @property
     def dimensions_text(self) -> str:
-        return f"{self.width} × {self.height} px"
+        return f"{self.width}x{self.height} px"
 
     @property
     def size_formatted(self) -> str:
@@ -91,16 +72,11 @@ class ImageItem:
         return self.flyweight.get_summary_text(self.file_size_bytes, self.width, self.height)
 
     def load_full_pixmap(self) -> QPixmap:
-        """Carrega a imagem original em alta resolução a partir do disco."""
         if not os.path.exists(self.file_path):
             return QPixmap()
         return QPixmap(self.file_path)
 
     def get_thumbnail(self, strategy: ThumbnailRenderStrategy, target_size: QSize) -> QPixmap:
-        """
-        Retorna a miniatura gerada através da ThumbnailRenderStrategy informada.
-        Possui cache inteligente que se invalida caso a estratégia ou tamanho mudem.
-        """
         if (
             self._cached_thumbnail is not None
             and self._cached_strategy_name == strategy.name
@@ -117,13 +93,11 @@ class ImageItem:
         return rendered
 
     def invalidate_thumbnail_cache(self) -> None:
-        """Limpa o cache da miniatura quando as configurações ou imagem forem alteradas."""
         self._cached_thumbnail = None
         self._cached_strategy_name = None
         self._cached_size = None
 
     def to_dict(self) -> Dict[str, Any]:
-        """Serialização para persistência e envio à API Flask futura."""
         return {
             "id": self.id,
             "file_path": self.file_path,
@@ -140,7 +114,6 @@ class ImageItem:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "ImageItem":
-        """Reconstrói um ImageItem a partir de um dicionário serializado."""
         return cls(
             file_path=data.get("file_path", ""),
             width=data.get("width", 0),

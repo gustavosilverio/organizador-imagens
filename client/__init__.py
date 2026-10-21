@@ -1,1 +1,1 @@
-"""Cliente Organizador de Imagens."""
+

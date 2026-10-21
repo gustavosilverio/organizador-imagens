@@ -1,15 +1,8 @@
-"""
-Testes Unitários para o Padrão Abstract Factory.
-Verifica criação de famílias compatíveis de produtos (ImageReader e ThumbnailGenerator),
-validação de formatos suportados e tratamento de exceções.
-"""
-
 import os
 import pytest
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtCore import QSize
 
-# Garante uma instância de QApplication para operações de QPixmap/QImage
 _app = QApplication.instance() or QApplication([])
 
 from client.patterns.abstract_factory import (
@@ -19,17 +12,14 @@ from client.patterns.abstract_factory import (
     BMPFormatFactory,
     JPEGReader,
     PNGReader,
-    BMPReader,
     JPEGThumbnailGenerator,
     PNGThumbnailGenerator,
-    BMPThumbnailGenerator,
     UnsupportedFormatException,
     InvalidImageFileException,
 )
 
 
 def test_factory_selector_resolution():
-    """Valida se o seletor entrega as fábricas concretas corretas para cada extensão."""
     jpg_factory = ImageFormatFactorySelector.get_factory_for_extension(".jpg")
     jpeg_factory = ImageFormatFactorySelector.get_factory_for_extension(".jpeg")
     png_factory = ImageFormatFactorySelector.get_factory_for_extension(".png")
@@ -42,7 +32,6 @@ def test_factory_selector_resolution():
 
 
 def test_factory_creates_family_of_products():
-    """Valida se cada fábrica cria a família consistente de leitor e gerador de miniaturas."""
     factory = PNGFormatFactory()
     reader = factory.create_reader()
     thumb_gen = factory.create_thumbnail_generator()
@@ -56,7 +45,6 @@ def test_factory_creates_family_of_products():
 
 
 def test_unsupported_format_raises_exception():
-    """Valida rejeição de formatos não suportados (.txt, .pdf, .xyz)."""
     with pytest.raises(UnsupportedFormatException):
         ImageFormatFactorySelector.get_factory_for_extension(".txt")
 
@@ -65,7 +53,6 @@ def test_unsupported_format_raises_exception():
 
 
 def test_read_valid_png_and_generate_thumbnail():
-    """Valida leitura e geração de miniatura com o leitor e gerador de PNG."""
     png_path = "sample_images/graphic_shapes.png"
     assert os.path.exists(png_path)
 
@@ -86,7 +73,6 @@ def test_read_valid_png_and_generate_thumbnail():
 
 
 def test_read_valid_jpeg():
-    """Valida leitura de imagem JPEG."""
     jpg_path = "sample_images/sunset_landscape.jpg"
     assert os.path.exists(jpg_path)
 
@@ -101,7 +87,6 @@ def test_read_valid_jpeg():
 
 
 def test_corrupted_image_raises_invalid_image_exception():
-    """Valida detecção de arquivo corrompido (bytes inválidos com extensão .jpg)."""
     corrupted_path = "sample_images/corrupted_image.jpg"
     assert os.path.exists(corrupted_path)
 
@@ -113,7 +98,6 @@ def test_corrupted_image_raises_invalid_image_exception():
 
 
 def test_missing_file_raises_filenotfound():
-    """Valida tentativa de leitura de caminho inexistente."""
     factory = JPEGFormatFactory()
     reader = factory.create_reader()
 

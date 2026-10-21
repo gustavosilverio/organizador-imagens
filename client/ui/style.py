@@ -1,8 +1,3 @@
-"""
-Estilos e tema visual da aplicação Qt.
-Design moderno, limpo e profissional com esquema de cores escuro suave (Slate Dark).
-"""
-
 APP_STYLESHEET = """
 QMainWindow {
     background-color: #0F172A;
@@ -14,7 +9,6 @@ QWidget {
     font-size: 13px;
 }
 
-/* ToolBar */
 QToolBar {
     background-color: #1E293B;
     border-bottom: 1px solid #334155;
@@ -40,8 +34,7 @@ QToolButton:pressed {
     background-color: #2563EB;
 }
 
-/* Painel de Controle de Strategies */
-#strategyPanel {
+#controlPanel {
     background-color: #1E293B;
     border-bottom: 1px solid #334155;
     padding: 10px 16px;
@@ -58,7 +51,6 @@ QLineEdit {
     border-radius: 6px;
     padding: 6px 12px;
     color: #F8FAFC;
-    selection-background-color: #3B82F6;
 }
 
 QLineEdit:focus {
@@ -97,7 +89,6 @@ QComboBox QAbstractItemView {
     padding: 4px;
 }
 
-/* Área de Rolagem / Galeria */
 QScrollArea {
     background-color: #0F172A;
     border: none;
@@ -120,11 +111,6 @@ QScrollBar::handle:vertical:hover {
     background: #475569;
 }
 
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-    height: 0px;
-}
-
-/* Status Bar */
 QStatusBar {
     background-color: #1E293B;
     border-top: 1px solid #334155;
@@ -133,7 +119,6 @@ QStatusBar {
     padding: 4px;
 }
 
-/* Botões Padrão */
 QPushButton {
     background-color: #2563EB;
     color: #FFFFFF;
@@ -169,7 +154,6 @@ QPushButton#btnSecondary:hover {
     background-color: #475569;
 }
 
-/* Caixa de Diálogo */
 QDialog {
     background-color: #0F172A;
 }

@@ -1,1 +1,1 @@
-"""Funções auxiliares e utilitários."""
+
