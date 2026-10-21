@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Ambientes Virtuais
+.venv/
+venv/
+ENV/
+env/
+
+# Pytest / Cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Dados voláteis de teste
+data/test_*.json
+server/uploads/*
+!server/uploads/.gitkeep
