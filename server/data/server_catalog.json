@@ -1,1 +1,57 @@
-{}
+{
+  "396a590f-a544-4653-9aa2-148adc9c168e": {
+    "id": "396a590f-a544-4653-9aa2-148adc9c168e",
+    "file_path": "C:\\git\\python\\client-paradigmas\\server\\uploads\\396a590f-a544-4653-9aa2-148adc9c168e_city_night.jpg",
+    "file_name": "city_night.jpg",
+    "stored_name": "396a590f-a544-4653-9aa2-148adc9c168e_city_night.jpg",
+    "width": 0,
+    "height": 0,
+    "file_size_bytes": 19944,
+    "format": "JPEG",
+    "title": "city_night"
+  },
+  "c86f4cb7-5b53-4d36-824c-0e82cb7a6848": {
+    "id": "c86f4cb7-5b53-4d36-824c-0e82cb7a6848",
+    "file_path": "C:\\git\\python\\client-paradigmas\\server\\uploads\\c86f4cb7-5b53-4d36-824c-0e82cb7a6848_graphic_shapes.png",
+    "file_name": "graphic_shapes.png",
+    "stored_name": "c86f4cb7-5b53-4d36-824c-0e82cb7a6848_graphic_shapes.png",
+    "width": 0,
+    "height": 0,
+    "file_size_bytes": 1817,
+    "format": "PNG",
+    "title": "graphic_shapes"
+  },
+  "b9039067-9aca-47c4-b6a1-0c25d1092aac": {
+    "id": "b9039067-9aca-47c4-b6a1-0c25d1092aac",
+    "file_path": "C:\\git\\python\\client-paradigmas\\server\\uploads\\b9039067-9aca-47c4-b6a1-0c25d1092aac_sunset_landscape.jpg",
+    "file_name": "sunset_landscape.jpg",
+    "stored_name": "b9039067-9aca-47c4-b6a1-0c25d1092aac_sunset_landscape.jpg",
+    "width": 0,
+    "height": 0,
+    "file_size_bytes": 9603,
+    "format": "JPEG",
+    "title": "sunset_landscape"
+  },
+  "1028a180-34e7-4fa7-8327-5e1733fa40ac": {
+    "id": "1028a180-34e7-4fa7-8327-5e1733fa40ac",
+    "file_path": "C:\\git\\python\\client-paradigmas\\server\\uploads\\1028a180-34e7-4fa7-8327-5e1733fa40ac_tech_grid.png",
+    "file_name": "tech_grid.png",
+    "stored_name": "1028a180-34e7-4fa7-8327-5e1733fa40ac_tech_grid.png",
+    "width": 0,
+    "height": 0,
+    "file_size_bytes": 8856,
+    "format": "PNG",
+    "title": "tech_grid"
+  },
+  "66037e75-b16d-4dbb-b4cd-6f07f7846688": {
+    "id": "66037e75-b16d-4dbb-b4cd-6f07f7846688",
+    "file_path": "C:\\git\\python\\client-paradigmas\\server\\uploads\\66037e75-b16d-4dbb-b4cd-6f07f7846688_AnyDesk_0dfR8QiWSI.png",
+    "file_name": "AnyDesk_0dfR8QiWSI.png",
+    "stored_name": "66037e75-b16d-4dbb-b4cd-6f07f7846688_AnyDesk_0dfR8QiWSI.png",
+    "width": 0,
+    "height": 0,
+    "file_size_bytes": 598984,
+    "format": "PNG",
+    "title": "AnyDesk_0dfR8QiWSI"
+  }
+}
