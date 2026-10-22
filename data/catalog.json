@@ -1,18 +1,5 @@
 [
   {
-    "id": "d5fd2ac9-5bda-407a-a7a4-6d627135accc",
-    "file_path": "C:\\Users\\gusta\\Pictures\\prof-pic.jpg",
-    "file_name": "prof-pic.jpg",
-    "width": 3408,
-    "height": 2556,
-    "file_size_bytes": 5899114,
-    "format": "JPEG",
-    "title": "prof-pic",
-    "description": "",
-    "tags": [],
-    "date_modified": "2025-04-04 15:01:06"
-  },
-  {
     "id": "e34e9dd3-e55e-425a-97b0-9c314c872754",
     "file_path": "C:\\Users\\gusta\\Pictures\\ShareX\\Screenshots\\2026-10\\AnyDesk_0dfR8QiWSI.png",
     "file_name": "AnyDesk_0dfR8QiWSI.png",
@@ -20,10 +7,7 @@
     "height": 968,
     "file_size_bytes": 598984,
     "format": "PNG",
-    "title": "AnyDesk_0dfR8QiWSI",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-14 16:14:43"
+    "title": "AnyDesk_0dfR8QiWSI"
   },
   {
     "id": "c5468ad2-1db1-4823-b0ea-e2b6cc17fc95",
@@ -33,10 +17,7 @@
     "height": 968,
     "file_size_bytes": 713716,
     "format": "PNG",
-    "title": "AnyDesk_1Cs73mW8ic",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-08 14:14:46"
+    "title": "AnyDesk_1Cs73mW8ic"
   },
   {
     "id": "1ea11e6b-bf89-4f8c-a6db-d309d5d88b04",
@@ -46,10 +27,7 @@
     "height": 214,
     "file_size_bytes": 31014,
     "format": "PNG",
-    "title": "AnyDesk_1LwZrA6O9z",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-14 16:13:44"
+    "title": "AnyDesk_1LwZrA6O9z"
   },
   {
     "id": "faacd17d-781b-4c05-a410-ed296f41e5b3",
@@ -59,10 +37,7 @@
     "height": 469,
     "file_size_bytes": 84444,
     "format": "PNG",
-    "title": "AnyDesk_4mUFDtbIxz",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-08 18:39:35"
+    "title": "AnyDesk_4mUFDtbIxz"
   },
   {
     "id": "2fedc131-82c8-4dc8-b6a4-a124cc6cfa6c",
@@ -72,10 +47,7 @@
     "height": 968,
     "file_size_bytes": 579439,
     "format": "PNG",
-    "title": "AnyDesk_8WN8jwlaXd",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-14 15:52:29"
+    "title": "AnyDesk_8WN8jwlaXd"
   },
   {
     "id": "7f9c7f97-d1b4-4ac7-8c88-6af8f3b3d7c0",
@@ -85,23 +57,7 @@
     "height": 968,
     "file_size_bytes": 285280,
     "format": "PNG",
-    "title": "AnyDesk_amIx31wGEl",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-16 14:36:34"
-  },
-  {
-    "id": "01ab1b0f-bdbc-4ec9-a9ef-4efff32c761b",
-    "file_path": "C:\\Users\\gusta\\Pictures\\ShareX\\Screenshots\\2026-10\\AnyDesk_BjziUxQABN.png",
-    "file_name": "AnyDesk_BjziUxQABN.png",
-    "width": 1920,
-    "height": 968,
-    "file_size_bytes": 290131,
-    "format": "PNG",
-    "title": "AnyDesk_BjziUxQABN",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-16 14:36:44"
+    "title": "AnyDesk_amIx31wGEl"
   },
   {
     "id": "e030ffcd-a125-4ed5-a5b5-db19b633c737",
@@ -111,10 +67,7 @@
     "height": 968,
     "file_size_bytes": 284900,
     "format": "PNG",
-    "title": "AnyDesk_d4R219berT",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-14 15:57:00"
+    "title": "AnyDesk_d4R219berT"
   },
   {
     "id": "63123ea9-700d-4455-b647-65c58908dae1",
@@ -124,10 +77,7 @@
     "height": 968,
     "file_size_bytes": 621398,
     "format": "PNG",
-    "title": "AnyDesk_EiNiYP5SkO",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-08 18:51:23"
+    "title": "AnyDesk_EiNiYP5SkO"
   },
   {
     "id": "9e1548bb-6559-4875-972f-402968453cd6",
@@ -137,10 +87,7 @@
     "height": 968,
     "file_size_bytes": 278919,
     "format": "PNG",
-    "title": "AnyDesk_H1GuyiNlQj",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-16 18:44:02"
+    "title": "AnyDesk_H1GuyiNlQj"
   },
   {
     "id": "77fc811d-50d7-4174-80c0-62b6cf3cbf35",
@@ -150,10 +97,7 @@
     "height": 968,
     "file_size_bytes": 502241,
     "format": "PNG",
-    "title": "AnyDesk_iKt6wGSCmx",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-01 13:55:01"
+    "title": "AnyDesk_iKt6wGSCmx"
   },
   {
     "id": "3f00a567-5d88-48bc-bdc3-d29c0f1f1b0f",
@@ -163,10 +107,7 @@
     "height": 968,
     "file_size_bytes": 245281,
     "format": "PNG",
-    "title": "AnyDesk_iVgw1OLLJu",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-01 12:40:09"
+    "title": "AnyDesk_iVgw1OLLJu"
   },
   {
     "id": "7233c9dc-35b4-4dc0-bd5b-22b8dbfe93ad",
@@ -176,10 +117,7 @@
     "height": 321,
     "file_size_bytes": 46168,
     "format": "PNG",
-    "title": "AnyDesk_N7I4hyk3GQ",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-07 14:57:08"
+    "title": "AnyDesk_N7I4hyk3GQ"
   },
   {
     "id": "aaa12647-5070-4bbb-bb2a-1b8cb64c26ef",
@@ -189,22 +127,6 @@
     "height": 819,
     "file_size_bytes": 121831,
     "format": "PNG",
-    "title": "AnyDesk_SYLkc7JMEl",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-08 15:48:20"
-  },
-  {
-    "id": "9a93216c-8073-413d-8a16-2082eb44eb14",
-    "file_path": "C:\\git\\python\\client-paradigmas\\sample_images\\city_night.jpg",
-    "file_name": "city_night.jpg",
-    "width": 800,
-    "height": 600,
-    "file_size_bytes": 19944,
-    "format": "JPEG",
-    "title": "city_night",
-    "description": "",
-    "tags": [],
-    "date_modified": "2026-10-21 19:31:50"
+    "title": "AnyDesk_SYLkc7JMEl"
   }
 ]

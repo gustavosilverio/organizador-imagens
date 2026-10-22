@@ -209,22 +209,10 @@ classDiagram
 - RNF01 - Sem banco de dados externo ou APIs de terceiros (armazenamento JSON simples).
 - RNF02 - Desacoplamento estrutural conforme padroes GoF (Abstract Factory, Flyweight, Strategy).
 - RNF03 - Interface desktop simples e nativa em PyQt6.
-- RNF04 - Testabilidade automatizada via pytest.
 
 ---
 
-## 5. Cenarios de Teste
-
-| Teste | Nome | Acao | Resultado Esperado | Status |
-|---|---|---|---|---|
-| T10.1 | Importar e visualizar imagens | Importar imagens PNG e JPEG validas | Imagens listadas, miniaturas exibidas, metadados persistidos | Aprovado |
-| T10.2 | Arquivo invalido e caminho ausente | Tentar importar arquivo .txt, corrompido ou inexistente | Erro tratado graciosamente, sem travar o QT e sem gravar dados invalidos | Aprovado |
-| T10.3 | Upload, metadados e download | Editar nome e exportar copia da imagem | Nome persistido e copia exportada identica ao original | Aprovado |
-| T10.4 | Flyweight e Strategy | Importar imagens e alternar modo de miniatura | Reuso de instancias Flyweight comprovado e geracao de miniatura via Strategy | Aprovado |
-
----
-
-## 6. Instrucoes de Execucao
+## 5. Instrucoes de Execucao
 
 ### Instalacao de dependencias
 ```bash
@@ -234,11 +222,6 @@ pip install -r requirements.txt
 ### Executar o Cliente QT
 ```bash
 python main.py
-```
-
-### Executar os Testes Automatizados
-```bash
-pytest -v
 ```
 
 ### Executar o Servidor Flask (Opcional)

@@ -47,10 +47,6 @@ class MainWindow(QMainWindow):
         self.btn_samples.clicked.connect(self._on_load_samples)
         top_buttons_layout.addWidget(self.btn_samples)
 
-        self.btn_test_invalid = QPushButton("Testar Arquivo Invalido")
-        self.btn_test_invalid.clicked.connect(self._on_test_invalid)
-        top_buttons_layout.addWidget(self.btn_test_invalid)
-
         top_buttons_layout.addStretch()
         main_layout.addLayout(top_buttons_layout)
 
@@ -254,28 +250,3 @@ class MainWindow(QMainWindow):
                     pass
         self.refresh_list()
 
-    def _on_test_invalid(self) -> None:
-        txt_path = os.path.abspath("sample_images/document.txt")
-        corrupted_path = os.path.abspath("sample_images/corrupted_image.jpg")
-        missing_path = os.path.abspath("sample_images/nao_existe.jpg")
-
-        msg = []
-        try:
-            self.service.import_image(txt_path)
-            msg.append("Falha no teste txt.")
-        except UnsupportedFormatException as e:
-            msg.append(f"OK: formato invalido rejeitado ({e})")
-
-        try:
-            self.service.import_image(corrupted_path)
-            msg.append("Falha no teste arquivo corrompido.")
-        except InvalidImageFileException as e:
-            msg.append(f"OK: arquivo corrompido rejeitado ({e})")
-
-        try:
-            self.service.import_image(missing_path)
-            msg.append("Falha no teste caminho ausente.")
-        except FileNotFoundError as e:
-            msg.append(f"OK: caminho ausente rejeitado ({e})")
-
-        QMessageBox.information(self, "Teste T10.2", "\n\n".join(msg))
