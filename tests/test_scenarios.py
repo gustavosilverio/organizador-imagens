@@ -1,6 +1,7 @@
 import os
 import pytest
 from PyQt6.QtWidgets import QApplication
+from PyQt6.QtCore import QSize
 
 _app = QApplication.instance() or QApplication([])
 
@@ -10,8 +11,8 @@ from client.patterns.abstract_factory import (
     InvalidImageFileException
 )
 from client.patterns.strategy import (
-    SortByNameAscStrategy,
-    SortBySizeDescStrategy
+    SmoothThumbnailStrategy,
+    FastThumbnailStrategy
 )
 
 
@@ -25,8 +26,8 @@ def test_scenario_t10_1_import_and_view(service):
     png_path = os.path.abspath("sample_images/graphic_shapes.png")
     jpg_path = os.path.abspath("sample_images/sunset_landscape.jpg")
 
-    item_png = service.import_image(png_path, title="Formas Graficas", tags=["vetor", "demo"])
-    item_jpg = service.import_image(jpg_path, title="Por do Sol", tags=["natureza", "foto"])
+    item_png = service.import_image(png_path, title="Formas Graficas")
+    item_jpg = service.import_image(jpg_path, title="Por do Sol")
 
     assert item_png is not None
     assert item_jpg is not None
@@ -60,11 +61,9 @@ def test_scenario_t10_3_upload_metadata_download(service, tmp_path):
     jpg_path = os.path.abspath("sample_images/city_night.jpg")
     item = service.import_image(jpg_path, title="Titulo Inicial")
 
-    updated = service.update_image_metadata(
+    updated = service.update_image_title(
         image_id=item.id,
-        title="Cidade Iluminada a Noite",
-        description="Fotografia noturna.",
-        tags=["cidade", "noturna"]
+        title="Cidade Iluminada a Noite"
     )
 
     assert updated.title == "Cidade Iluminada a Noite"
@@ -80,10 +79,10 @@ def test_scenario_t10_3_upload_metadata_download(service, tmp_path):
 
 
 def test_scenario_t10_4_flyweight_and_strategy(service):
-    img1 = service.import_image("sample_images/graphic_shapes.png", title="Zebra PNG")
-    img2 = service.import_image("sample_images/tech_grid.png", title="Alpha PNG")
-    img3 = service.import_image("sample_images/sunset_landscape.jpg", title="Beta JPG")
-    img4 = service.import_image("sample_images/city_night.jpg", title="Delta JPG")
+    img1 = service.import_image("sample_images/graphic_shapes.png", title="Imagem 1 PNG")
+    img2 = service.import_image("sample_images/tech_grid.png", title="Imagem 2 PNG")
+    img3 = service.import_image("sample_images/sunset_landscape.jpg", title="Imagem 3 JPG")
+    img4 = service.import_image("sample_images/city_night.jpg", title="Imagem 4 JPG")
 
     assert img1.flyweight is img2.flyweight
     assert img3.flyweight is img4.flyweight
@@ -93,11 +92,12 @@ def test_scenario_t10_4_flyweight_and_strategy(service):
     assert stats["total_images"] == 4
     assert stats["objects_saved"] >= 2
 
-    sort_asc = SortByNameAscStrategy()
-    processed_asc = service.get_sorted_images(sort_strategy=sort_asc)
-    titles_asc = [x.title for x in processed_asc]
-    assert titles_asc == ["Alpha PNG", "Beta JPG", "Delta JPG", "Zebra PNG"]
+    smooth = SmoothThumbnailStrategy()
+    fast = FastThumbnailStrategy()
+    target = QSize(100, 100)
 
-    sort_size_desc = SortBySizeDescStrategy()
-    processed_size = service.get_sorted_images(sort_strategy=sort_size_desc)
-    assert processed_size[0].file_size_bytes >= processed_size[-1].file_size_bytes
+    thumb_smooth = img1.get_thumbnail(smooth, target)
+    thumb_fast = img1.get_thumbnail(fast, target)
+
+    assert not thumb_smooth.isNull()
+    assert not thumb_fast.isNull()

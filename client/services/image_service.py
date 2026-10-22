@@ -11,9 +11,7 @@ from client.patterns.abstract_factory import (
 )
 from client.patterns.flyweight import FormatFlyweightFactory
 from client.patterns.strategy import (
-    SortStrategy,
     ThumbnailRenderStrategy,
-    SortByNameAscStrategy,
     SmoothThumbnailStrategy,
 )
 from client.services.api_client import ImageApiClient, ApiConnectionError
@@ -25,17 +23,10 @@ class ImageService:
         self.api_client = api_client or ImageApiClient()
         self._items: Dict[str, ImageItem] = {}
         self.flyweight_factory = FormatFlyweightFactory()
-        self.active_sort_strategy: SortStrategy = SortByNameAscStrategy()
         self.active_thumbnail_strategy: ThumbnailRenderStrategy = SmoothThumbnailStrategy()
         self._load_from_storage()
 
-    def import_image(
-        self,
-        file_path: str,
-        title: Optional[str] = None,
-        description: str = "",
-        tags: Optional[List[str]] = None,
-    ) -> ImageItem:
+    def import_image(self, file_path: str, title: Optional[str] = None) -> ImageItem:
         if not file_path or not os.path.exists(file_path):
             raise FileNotFoundError(f"Arquivo nao encontrado: '{file_path}'")
 
@@ -54,8 +45,6 @@ class ImageService:
             file_size_bytes=file_size,
             format_name=factory.format_name,
             title=title or os.path.splitext(os.path.basename(file_path))[0],
-            description=description,
-            tags=tags or [],
         )
 
         self._items[item.id] = item
@@ -75,26 +64,12 @@ class ImageService:
     def get_image_by_id(self, image_id: str) -> Optional[ImageItem]:
         return self._items.get(image_id)
 
-    def get_sorted_images(self, sort_strategy: Optional[SortStrategy] = None) -> List[ImageItem]:
-        active_sort = sort_strategy or self.active_sort_strategy
-        return active_sort.sort(list(self._items.values()))
-
-    def update_image_metadata(
-        self,
-        image_id: str,
-        title: str,
-        description: str = "",
-        tags: Optional[List[str]] = None,
-    ) -> ImageItem:
+    def update_image_title(self, image_id: str, title: str) -> ImageItem:
         item = self.get_image_by_id(image_id)
         if not item:
             raise KeyError(f"Imagem '{image_id}' nao encontrada.")
 
         item.title = title.strip() or item.file_name
-        item.description = description.strip()
-        if tags is not None:
-            item.tags = [t.strip() for t in tags if t.strip()]
-
         self._save_to_storage()
 
         if self.api_client.is_online:

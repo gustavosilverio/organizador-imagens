@@ -46,15 +46,13 @@ class ImageApiClient:
                 files = {"file": (os.path.basename(file_path), f)}
                 data = {
                     "title": metadata.get("title", ""),
-                    "description": metadata.get("description", ""),
-                    "tags": ",".join(metadata.get("tags", [])),
                 }
                 resp = requests.post(f"{self.base_url}/images", files=files, data=data, timeout=self.timeout)
 
             if resp.status_code in (200, 201):
                 self._is_online = True
                 return resp.json()
-            raise ApiConnectionError(f"Falha no upload: status {resp.status_code} - {resp.text}")
+            raise ApiConnectionError(f"Falha no upload: status {resp.status_code}")
         except requests.exceptions.RequestException as e:
             self._is_online = False
             raise ApiConnectionError(f"Erro de conexao no upload: {e}")

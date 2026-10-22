@@ -11,14 +11,14 @@ Modulo: Cliente Desktop QT (PyQt6) e Servidor Flask (server/)
 
 O Organizador de Imagens e uma aplicacao desktop desenvolvida em Python e PyQt6 com foco na demonstracao dos padroes de projeto solicitados (Abstract Factory, Flyweight e Strategy).
 
-O sistema oferece um CRUD simples de imagens e metadados, suporte aos formatos JPEG, PNG e BMP, persistencia em formato JSON (sem banco de dados externo ou APIs de terceiros) e comunicacao desacoplada para o servidor Flask.
+A aplicacao possui uma interface simples com visual nativo contendo uma listagem com operacoes de CRUD direto na tela principal (adicionar imagem, visualizar miniatura e metadados, editar nome, excluir e exportar copia).
 
 ---
 
 ## 2. Design Patterns Implementados
 
 ### Criacional - Abstract Factory
-Cria familias compativeis de leitores e geradores de miniaturas para os formatos suportados.
+Cria familias compativeis de leitores e geradores de miniaturas para os formatos suportados (JPEG, PNG e BMP).
 - Fabrica Abstrata: `ImageFormatFactory`
 - Fabricas Concretas: `JPEGFormatFactory`, `PNGFormatFactory`, `BMPFormatFactory`
 - Produtos Abstratos: `ImageReader` e `ThumbnailGenerator`
@@ -68,11 +68,10 @@ classDiagram
 ---
 
 ### Estrutural - Flyweight
-Compartilha metadados e recursos comuns de cada formato entre as miniaturas para economia de memoria.
+Compartilha metadados e recursos comuns de formato entre as imagens na memoria.
 - Estado Intrinseco (`ImageFormatFlyweight`): formato, MIME type, suporte a canal alfa, cores e rotulo do badge.
-- Estado Extrinseco (`ImageItem`): caminho, dimensoes, tamanho em bytes, titulo, tags, descricao.
+- Estado Extrinseco (`ImageItem`): caminho, dimensoes, tamanho em bytes e nome.
 - Fabrica Flyweight (`FormatFlyweightFactory`): mantem pool unico de formatos e metadados compartilhados.
-- Observabilidade: comprovada via `FlyweightStatsWidget` e inspecao de enderecos de memoria.
 
 ```mermaid
 classDiagram
@@ -101,7 +100,6 @@ classDiagram
         +height: int
         +file_size_bytes: int
         +title: str
-        +tags: list
         +flyweight: ImageFormatFlyweight
         +get_thumbnail(strategy, size)
     }
@@ -113,40 +111,28 @@ classDiagram
 ---
 
 ### Comportamental - Strategy
-Permite a troca de algoritmos de ordenacao e geracao de miniaturas.
-- Estrategias de Ordenacao (`SortStrategy`):
-  - `SortByNameAscStrategy` (Nome A-Z)
-  - `SortByNameDescStrategy` (Nome Z-A)
-  - `SortBySizeAscStrategy` (Tamanho menor primeiro)
-  - `SortBySizeDescStrategy` (Tamanho maior primeiro)
-- Estrategias de Miniatura (`ThumbnailRenderStrategy`):
-  - `SmoothThumbnailStrategy` (Alta qualidade)
-  - `FastThumbnailStrategy` (Rapida)
+Permite a troca de algoritmos de geracao de miniaturas (conforme a orientacao: "Strategy: trocar algoritmo de ordenacao, filtro ou geracao de miniaturas").
+- Estrategia Base: `ThumbnailRenderStrategy`
+- Algoritmos Concretos:
+  - `SmoothThumbnailStrategy` (Alta qualidade com antialiasing)
+  - `FastThumbnailStrategy` (Renderizacao rapida)
 
 ```mermaid
 classDiagram
-    class SortStrategy {
+    class ThumbnailRenderStrategy {
         <<interface>>
         +name: str
-        +sort(items: list) list
+        +render(original_pixmap, target_size) QPixmap
     }
-    class SortByNameAscStrategy {
-        +sort(items: list) list
+    class SmoothThumbnailStrategy {
+        +render(original_pixmap, target_size) QPixmap
     }
-    class SortByNameDescStrategy {
-        +sort(items: list) list
-    }
-    class SortBySizeAscStrategy {
-        +sort(items: list) list
-    }
-    class SortBySizeDescStrategy {
-        +sort(items: list) list
+    class FastThumbnailStrategy {
+        +render(original_pixmap, target_size) QPixmap
     }
 
-    SortStrategy <|.. SortByNameAscStrategy
-    SortStrategy <|.. SortByNameDescStrategy
-    SortStrategy <|.. SortBySizeAscStrategy
-    SortStrategy <|.. SortBySizeDescStrategy
+    ThumbnailRenderStrategy <|.. SmoothThumbnailStrategy
+    ThumbnailRenderStrategy <|.. FastThumbnailStrategy
 ```
 
 ---
@@ -159,38 +145,22 @@ classDiagram
 
     class MainWindow {
         -service: ImageService
-        -selected_image_id: str
-        -card_widgets: list
-        +refresh_gallery()
-        +_on_import_files()
-        +_on_load_samples()
-        +_on_sort_changed()
-    }
-
-    class ImageCard {
-        +item: ImageItem
-        +thumbnail_strategy: ThumbnailRenderStrategy
-        +update_thumbnail(strategy)
-        +clicked
-        +double_clicked
-    }
-
-    class ImageDetailDialog {
-        +item: ImageItem
-        +service: ImageService
-        +_on_save_metadata()
-        +_on_export()
+        -selected_item: ImageItem
+        -list_widget: QListWidget
+        +refresh_list()
+        +_on_add_image()
         +_on_delete()
+        +_on_save_title()
+        +_on_export()
     }
 
     class ImageService {
         -_items: dict
         -storage_path: str
         -api_client: ImageApiClient
-        +import_image(file_path, title, desc, tags) ImageItem
+        +import_image(file_path, title) ImageItem
         +get_all_images() list
-        +get_sorted_images(sort_strat) list
-        +update_image_metadata(id, title, desc, tags) ImageItem
+        +update_image_title(id, title) ImageItem
         +delete_image(id) bool
         +export_image(id, dest_path) bool
         +get_flyweight_stats() dict
@@ -203,8 +173,8 @@ classDiagram
         +height: int
         +file_size_bytes: int
         +title: str
-        +tags: list
         +flyweight: ImageFormatFlyweight
+        +get_thumbnail(strategy, size) QPixmap
     }
 
     class ImageApiClient {
@@ -218,11 +188,6 @@ classDiagram
     }
 
     MainWindow --> ImageService
-    MainWindow --> ImageCard
-    MainWindow ..> ImageDetailDialog
-    ImageCard --> ImageItem
-    ImageDetailDialog --> ImageService
-    ImageDetailDialog --> ImageItem
     ImageService --> ImageItem
     ImageService --> ImageApiClient
 ```
@@ -232,18 +197,18 @@ classDiagram
 ## 4. Requisitos do Sistema
 
 ### Requisitos Funcionais (RF)
-- RF01 - Importar Imagem (Create): Selecao e cadastro de imagens locais nos formatos JPEG, PNG e BMP.
-- RF02 - Visualizar Galeria (Read): Exibicao em grade com miniatura, dimensoes e tamanho.
-- RF03 - Detalhes e Edicao (Update): Visualizacao da imagem e edicao de titulo, tags e descricao.
-- RF04 - Exclusao (Delete): Remocao de imagem do catalogo com confirmacao.
-- RF05 - Exportacao (Download): Salvar copia do arquivo no caminho escolhido pelo usuario.
-- RF06 - Ordenacao (Strategy): Troca de ordenacao por Nome (A-Z / Z-A) ou Tamanho (crescente / decrescente).
-- RF07 - Validacao de Arquivo: Rejeicao segura de arquivos corrompidos, formatos invalidos ou caminhos inexistentes.
+- RF01 - Adicionar Imagem (Create): Selecao e cadastro de imagens locais nos formatos JPEG, PNG e BMP.
+- RF02 - Listar e Visualizar (Read): Listagem direta com QListWidget e painel lateral com miniatura e dados tecnicos.
+- RF03 - Editar Nome (Update): Alteracao direta do nome da imagem selecionada.
+- RF04 - Excluir (Delete): Remocao da imagem do catalogo com confirmacao.
+- RF05 - Exportar (Download): Salvar copia do arquivo no caminho escolhido pelo usuario.
+- RF06 - Troca de Algoritmo de Miniatura (Strategy): Selecao entre modo rapido e alta qualidade.
+- RF07 - Validacao de Arquivo: Rejeicao de formatos invalidos, arquivos corrompidos ou caminhos inexistentes.
 
 ### Requisitos Nao-Funcionais (RNF)
 - RNF01 - Sem banco de dados externo ou APIs de terceiros (armazenamento JSON simples).
 - RNF02 - Desacoplamento estrutural conforme padroes GoF (Abstract Factory, Flyweight, Strategy).
-- RNF03 - Interface desktop desenvolvida em PyQt6.
+- RNF03 - Interface desktop simples e nativa em PyQt6.
 - RNF04 - Testabilidade automatizada via pytest.
 
 ---
@@ -252,10 +217,10 @@ classDiagram
 
 | Teste | Nome | Acao | Resultado Esperado | Status |
 |---|---|---|---|---|
-| T10.1 | Importar e visualizar imagens | Importar imagens PNG e JPEG validas | Imagens catalogadas, miniaturas exibidas, metadados persistidos | Aprovado |
+| T10.1 | Importar e visualizar imagens | Importar imagens PNG e JPEG validas | Imagens listadas, miniaturas exibidas, metadados persistidos | Aprovado |
 | T10.2 | Arquivo invalido e caminho ausente | Tentar importar arquivo .txt, corrompido ou inexistente | Erro tratado graciosamente, sem travar o QT e sem gravar dados invalidos | Aprovado |
-| T10.3 | Upload, metadados e download | Editar metadados e exportar copia da imagem | Metadados persistidos e copia exportada identica ao original | Aprovado |
-| T10.4 | Flyweight e Strategy | Importar imagens e alternar ordenacao | Reuso de instancias Flyweight comprovado e lista reordenada via Strategy | Aprovado |
+| T10.3 | Upload, metadados e download | Editar nome e exportar copia da imagem | Nome persistido e copia exportada identica ao original | Aprovado |
+| T10.4 | Flyweight e Strategy | Importar imagens e alternar modo de miniatura | Reuso de instancias Flyweight comprovado e geracao de miniatura via Strategy | Aprovado |
 
 ---
 

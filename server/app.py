@@ -77,10 +77,6 @@ def upload_image():
     file.save(save_path)
 
     title = request.form.get("title") or os.path.splitext(filename)[0]
-    description = request.form.get("description", "")
-    tags_raw = request.form.get("tags", "")
-    tags = [t.strip() for t in tags_raw.split(",") if t.strip()] if tags_raw else []
-
     file_size = os.path.getsize(save_path)
     ext = os.path.splitext(filename)[1].lower()
     fmt = "PNG" if ext == ".png" else ("BMP" if ext == ".bmp" else "JPEG")
@@ -95,9 +91,6 @@ def upload_image():
         "file_size_bytes": file_size,
         "format": fmt,
         "title": title,
-        "description": description,
-        "tags": tags,
-        "date_modified": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
     images_db[image_id] = item
@@ -115,10 +108,6 @@ def update_image(image_id):
     data = request.get_json(force=True, silent=True) or {}
     if "title" in data:
         item["title"] = data["title"].strip() or item["file_name"]
-    if "description" in data:
-        item["description"] = data["description"].strip()
-    if "tags" in data and isinstance(data["tags"], list):
-        item["tags"] = [str(t).strip() for t in data["tags"] if str(t).strip()]
 
     save_data()
     return jsonify(item), 200

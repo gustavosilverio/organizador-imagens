@@ -22,8 +22,6 @@ def test_server_crud_lifecycle(client):
     data = {
         "file": (io.BytesIO(image_content), "test_art.png"),
         "title": "Arte Abstrata",
-        "description": "Uma imagem gerada para testes",
-        "tags": "teste, servidor, flask"
     }
     post_resp = client.post("/api/images", data=data, content_type="multipart/form-data")
     assert post_resp.status_code == 201
@@ -40,7 +38,7 @@ def test_server_crud_lifecycle(client):
     assert get_resp.status_code == 200
     assert get_resp.get_json()["title"] == "Arte Abstrata"
 
-    put_data = {"title": "Arte Abstrata Editada", "tags": ["novo", "update"]}
+    put_data = {"title": "Arte Abstrata Editada"}
     put_resp = client.put(f"/api/images/{image_id}", json=put_data)
     assert put_resp.status_code == 200
     assert put_resp.get_json()["title"] == "Arte Abstrata Editada"
